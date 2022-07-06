@@ -19,6 +19,7 @@ public class MainWindow extends Frame {
 	Button irregularVerbsButton, wordsButton;
 	Button[] irregularVerbsTestsButtons;
 	Button[] wordsTestsButtons;
+	TestWindow irregularVerbsTestsWindow;
 
 	public MainWindow() {
 		setLayout(new FlowLayout());
@@ -33,10 +34,17 @@ public class MainWindow extends Frame {
 
 		Panel irregularVerbsPanel = new Panel();
 		irregularVerbsPanel.setLayout(new GridLayout(0, 5, 10, 10));
-		irregularVerbsTestsButtons = new Button[3];
-		for (int i = 0; i < 3; ++i) {	
-			irregularVerbsTestsButtons[i] = new Button("test # " + i);
+		File irregularVerbsTestsDir = new File(irregularTestPath);
+		String[] irregularVerbsTestsFilesNames = irregularVerbsTestsDir.list();
+		int irregularVerbsTestsCount = irregularVerbsTestsFilesNames.length;
+		irregularVerbsTestsButtons = new Button[irregularVerbsTestsCount];
+		for (int i = 0; i < irregularVerbsTestsCount; ++i) {	
+			irregularVerbsTestsButtons[i] = new Button(irregularVerbsTestsFilesNames[i]);
 			irregularVerbsPanel.add(irregularVerbsTestsButtons[i]);
+			irregularVerbsTestsButtons[i].addActionListener((ae) -> {
+				irregularVerbsTestsWindow = new TestWindow(ae.getActionCommand());
+				irregularVerbsTestsWindow.setVisible(true); 
+			});
 		}
 
 		Panel wordsPanel = new Panel();

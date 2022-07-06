@@ -1,2 +1,2 @@
-go went gone
-do did done
+go@went@gone
+do@did@done
