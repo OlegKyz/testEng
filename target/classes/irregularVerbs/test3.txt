@@ -1,0 +1,35 @@
+give@gave@given@давать
+go@went@gone@идти
+grow@grew@grown@расти
+hang@hung@hung@вешать
+have@had@had@иметь
+hear@heard@heard@слышать
+hide@hid@hidden@прятать
+hit@hit@hit@попадать в цель
+hold@hold@hold@держать
+hurt@hurt@hurt@Ушибить
+keep@kept@kept@Содержать
+kneel@knelt@knelt@Стоять на коленях
+know@knew@known@Знать
+lay@laid@laid@Класть
+lead@led@led@Вести
+lean@leant@leant@Наклоняться
+learn@learnt@learnt@Учить
+leave@left@left@Оставлять
+lend@lent@lent@Занимать
+let@let@let@Позволять
+lie@lay@lain@Лежать
+light@lit@lit@Освещать
+lose@lost@lost@Терять
+make@made@made@Производить
+mean@meant@meant@Значить
+meet@met@met@Встречать
+mistake@mistook@mistaken@Ошибаться
+pay@paid@paid@Платить
+prove@proved@proven@Доказывать
+put@put@put@Положить
+quit@quit@quit@Выходить
+read@read@read@Читать
+ride@rode@ridden@Ездить верхом
+ring@rang@rung@Звенеть
+rise@rose@risen@Подниматься
