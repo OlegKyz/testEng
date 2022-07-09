@@ -12,35 +12,77 @@ public class TestWindow extends Frame {
 	private final static String irregularTestPath = 
 		"src\\main\\resources\\irregularVerbs";
 
+	private final int testsMaxCountInPage = 10;
+
+	private Panel buttonsPanel;
+	private Panel testsPanel;
+	private CardLayout cardLayout;
+	private Button nextButton, prevButton, finishButton;
+
 	public TestWindow(String fileName) {
-		setLayout(new GridLayout(0, 1, 10, 10));
-		setSize(400, 400);
-		//System.out.println(irregularTestPath + "\\" + fileName);
+		//setLayout(new GridLayout(0, 1, 10, 10));
+		setLayout(new FlowLayout());
+		setSize(400, 500);
+
+		initializeTestsPanel(fileName);
+		initializeButtonsPanel();
+		add(testsPanel);
+		add(buttonsPanel);
+
+		nextButton.addActionListener((ae) ->
+			cardLayout.next(testsPanel));
+
+		prevButton.addActionListener((ae) ->
+			cardLayout.previous(testsPanel));
+
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent we) {
+				setVisible(false);
+			}
+		});
+	}
+
+	private void initializeTestsPanel(String fileName) {
+		cardLayout = new CardLayout();
+		testsPanel = new Panel();
+		testsPanel.setLayout(cardLayout);
+
 		try {
 			File testFile = new File(irregularTestPath + "\\" + fileName);
 			BufferedReader reader = new BufferedReader(new FileReader(testFile));
 			String line = reader.readLine();
-			int i = 0;
+			
+			Panel currentPagePanel = new Panel();
+			currentPagePanel.setLayout(new GridLayout(0, 1, 10, 10));
+			int testsCountInCurrentPage = 0;
 			while (line != null) {
-				String[] buf = line.split("@");
-				//System.out.println(buf[0] + " " + buf[1] + " " + buf[2]);
-				TestVerbCase testCase = new TestVerbCase(buf[0], buf[1], buf[2]);
-				add(testCase);
-				line = reader.readLine();
-				++i;
-				if (i >= 10) {
-					break;
+				if (testsCountInCurrentPage >= testsMaxCountInPage) {
+					testsPanel.add(currentPagePanel);
+					currentPagePanel = new Panel();
+					currentPagePanel.setLayout(new GridLayout(0, 1, 10, 10));
+					testsCountInCurrentPage = 0;
 				}
+				String[] buf = line.split("@");
+				TestVerbCase testCase = new TestVerbCase(buf[0], buf[1], buf[2]);
+				currentPagePanel.add(testCase);
+				++testsCountInCurrentPage;
+				line = reader.readLine();
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent we) {
-				setVisible(false);
-			}
-		});
+	}
+
+	private void initializeButtonsPanel() {
+		buttonsPanel = new Panel();
+		buttonsPanel.setLayout(new FlowLayout());
+		nextButton = new Button("Next");
+		prevButton = new Button("Prev");
+		finishButton = new Button("Finish");
+		buttonsPanel.add(finishButton);
+		buttonsPanel.add(prevButton);
+		buttonsPanel.add(nextButton);
 	}
 }
