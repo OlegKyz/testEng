@@ -6,38 +6,36 @@ import java.awt.*;
 public class TestVerbCase extends Panel {
 	private static int textFieldLength = 15;
 
-	private String first, second, third;
+	private String first, second, third, rus;
 	private Label firstLabel;
 	private TextField secondField, thirdField;
+	private TextField rusField;
+	private Label rusLabel;
 
-	//private Panel testPanel;
-
-	public TestVerbCase(String first, String second, String third) {
+	public TestVerbCase(String first, String second, String third, String rus) {
 		this.first = first.toLowerCase();
 		this.second = second.toLowerCase();
 		this.third = third.toLowerCase();
+		this.rus = rus;
 		firstLabel = new Label(first);
 		secondField = new TextField(textFieldLength);
 		thirdField = new TextField(textFieldLength);
-		//testPanel = new Panel();
-
-		// testPanel.setLayout(new FlowLayout());
-		// testPanel.add(firstLabel);
-		// testPanel.add(secondField);
-		// testPanel.add(thirdField);
+		//rusField = new TextField(textFieldLength);
+		rusLabel = new Label(rus);
 
 		setLayout(new FlowLayout());
 		add(firstLabel);
 		add(secondField);
 		add(thirdField);
+		add(rusLabel);
 
 		secondField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				if (secondField.getText().toLowerCase().equals(second)) {
-					secondField.setText("True");
+					secondField.setForeground(Color.BLUE);
 				} else {
-					secondField.setText("False");
+					secondField.setForeground(Color.RED);
 				}
 			}
 		});
@@ -46,15 +44,22 @@ public class TestVerbCase extends Panel {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
 				if (thirdField.getText().toLowerCase().equals(third)) {
-					thirdField.setText("True");
+					thirdField.setForeground(Color.BLUE);
 				} else {
-					thirdField.setText("False");
+					thirdField.setForeground(Color.RED);
 				}
 			}
 		});
-	}
 
-	// public Panel getTestPanel() {
-	// 	return testPanel;
-	// }
+		// rusField.addActionListener(new ActionListener() {
+		// 	@Override
+		// 	public void actionPerformed(ActionEvent ae) {
+		// 		if (rusField.getText().toLowerCase().equals(rus)) {
+		// 			rusField.setForeground(Color.BLUE);
+		// 		} else {
+		// 			rusField.setForeground(Color.RED);
+		// 		}
+		// 	}
+		// });
+	}
 }

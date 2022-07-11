@@ -18,7 +18,7 @@ public class MainWindow extends Frame {
 	CardLayout cardL;
 	Button irregularVerbsButton, wordsButton;
 	TestManager[] irregularVerbsTestsManagers;
-	Button[] wordsTestsButtons;
+	TestManager[] wordsTestsManagers;
 	TestWindow irregularVerbsTestsWindow;
 
 	public MainWindow() {
@@ -40,20 +40,25 @@ public class MainWindow extends Frame {
 		irregularVerbsTestsManagers = new TestManager[irregularVerbsTestsCount];
 		for (int i = 0; i < irregularVerbsTestsCount; ++i) {	
 			irregularVerbsTestsManagers[i] = 
-				new TestManager(irregularTestPath, irregularVerbsTestsFilesNames[i]);
+				new TestManager(irregularTestPath, irregularVerbsTestsFilesNames[i], false);
 			irregularVerbsPanel.add(irregularVerbsTestsManagers[i]);
 		}
 
 		Panel wordsPanel = new Panel();
 		wordsPanel.setLayout(new GridLayout(0, 5, 10, 10));
-		wordsTestsButtons = new Button[10];
-		for (int i = 0; i < 10; ++i) {
-			wordsTestsButtons[i] = new Button("test № " + i);
-			wordsPanel.add(wordsTestsButtons[i]);
+		File wordsTestsDir = new File(wordsTestPath);
+		String[] wordsTestsFilesNames = wordsTestsDir.list();
+		int wordsTestsCount = wordsTestsFilesNames.length;
+		wordsTestsManagers = new TestManager[wordsTestsCount];
+		for (int i = 0; i < wordsTestsCount; ++i) {
+			wordsTestsManagers[i] = 
+				new TestManager(wordsTestPath, wordsTestsFilesNames[i], true);
+			wordsPanel.add(wordsTestsManagers[i]);
 		}
 
-		testsPanel.add(irregularVerbsPanel, "Irregular Verbs");
 		testsPanel.add(wordsPanel, "Words");
+		testsPanel.add(irregularVerbsPanel, "Irregular Verbs");
+		
 
 		add(testsPanel);
 
@@ -68,32 +73,16 @@ public class MainWindow extends Frame {
 				System.exit(0);
 			}
 		});
-		// File irregularVerbsTestDir = new File(irregularTestPath);
-		// File wordsTestDir = new File(wordsTestPath);
-		
-		// printTestFiles(irregularVerbsTestDir, wordsTestDir);
 	}
 
-	private void printTestFiles(File irregularVerbsTestDir,
-		File wordsTestDir) {
+	private void printTestFiles(File testDir) {
 		try {
 			File[] irregularVerbsTestFiles = 
-				irregularVerbsTestDir.listFiles();
+				testDir.listFiles();
 			for (File buf : irregularVerbsTestFiles) {
 				System.out.println(buf.getName());
-				BufferedReader reader = new BufferedReader(new FileReader(buf));
-				String line = reader.readLine();
-				while (line != null) {
-					System.out.println("----" + line);
-					line = reader.readLine();
-				}
-			}
-			System.out.println();
-			
-			File[] wordsTestFiles = wordsTestDir.listFiles();
-			for (File buf : wordsTestFiles) {
-				System.out.println(buf.getName());
-				BufferedReader reader = new BufferedReader(new FileReader(buf));
+				BufferedReader reader = 
+					new BufferedReader(new FileReader(buf));
 				String line = reader.readLine();
 				while (line != null) {
 					System.out.println("----" + line);

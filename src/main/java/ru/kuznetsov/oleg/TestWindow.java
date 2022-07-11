@@ -9,8 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class TestWindow extends Frame {
-	private final static String irregularTestPath = 
-		"src\\main\\resources\\irregularVerbs";
 
 	private final int testsMaxCountInPage = 10;
 
@@ -19,13 +17,14 @@ public class TestWindow extends Frame {
 	private CardLayout cardLayout;
 	private Button nextButton, prevButton, finishButton;
 
-	public TestWindow(String fileName) {
+	public TestWindow(String dirPath, String fileName, boolean isWordTest) {
 		//setLayout(new GridLayout(0, 1, 10, 10));
 		setLayout(new FlowLayout());
 		setSize(400, 500);
 
-		initializeTestsPanel(fileName);
+		initializeTestsPanel(dirPath, fileName, isWordTest);
 		initializeButtonsPanel();
+
 		add(testsPanel);
 		add(buttonsPanel);
 
@@ -42,19 +41,22 @@ public class TestWindow extends Frame {
 		});
 	}
 
-	private void initializeTestsPanel(String fileName) {
+	private void initializeTestsPanel(String dirPath, 
+		String fileName, boolean isWordTest) {
+
 		cardLayout = new CardLayout();
 		testsPanel = new Panel();
 		testsPanel.setLayout(cardLayout);
 
 		try {
-			File testFile = new File(irregularTestPath + "\\" + fileName);
+			File testFile = new File(dirPath + "\\" + fileName);
 			BufferedReader reader = new BufferedReader(new FileReader(testFile));
 			String line = reader.readLine();
 			
 			Panel currentPagePanel = new Panel();
 			currentPagePanel.setLayout(new GridLayout(0, 1, 10, 10));
 			int testsCountInCurrentPage = 0;
+			int i = 0;
 			while (line != null) {
 				if (testsCountInCurrentPage >= testsMaxCountInPage) {
 					testsPanel.add(currentPagePanel);
@@ -63,10 +65,17 @@ public class TestWindow extends Frame {
 					testsCountInCurrentPage = 0;
 				}
 				String[] buf = line.split("@");
-				TestVerbCase testCase = new TestVerbCase(buf[0], buf[1], buf[2]);
-				currentPagePanel.add(testCase);
+
+				if (isWordTest) {
+					currentPagePanel.add(new TestWordCase(buf[0], buf[1]));
+				} else {
+					currentPagePanel.add(new TestVerbCase(buf[0], buf[1], buf[2], buf[3]));
+				}
 				++testsCountInCurrentPage;
 				line = reader.readLine();
+			}
+			if (testsCountInCurrentPage > 0) {
+				testsPanel.add(currentPagePanel);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
