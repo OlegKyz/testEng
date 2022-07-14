@@ -11,6 +11,7 @@ public class TestVerbCase extends Panel {
 	private TextField secondField, thirdField;
 	private TextField rusField;
 	private Label rusLabel;
+	private Button showRightAnswersButton;
 
 	public TestVerbCase(String first, String second, String third, String rus) {
 		this.first = first.toLowerCase();
@@ -22,12 +23,14 @@ public class TestVerbCase extends Panel {
 		thirdField = new TextField(textFieldLength);
 		//rusField = new TextField(textFieldLength);
 		rusLabel = new Label(rus);
+		showRightAnswersButton = new Button("Show answers");
 
 		setLayout(new FlowLayout());
 		add(firstLabel);
 		add(secondField);
 		add(thirdField);
 		add(rusLabel);
+		add(showRightAnswersButton);
 
 		secondField.addActionListener(new ActionListener() {
 			@Override
@@ -61,5 +64,13 @@ public class TestVerbCase extends Panel {
 		// 		}
 		// 	}
 		// });
+
+		showRightAnswersButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				secondField.setText(second);
+				thirdField.setText(third);
+			}
+		});
 	}
 }

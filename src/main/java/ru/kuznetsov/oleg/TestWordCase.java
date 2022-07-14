@@ -9,10 +9,12 @@ public class TestWordCase extends Panel {
 	private String rusWord, engWord;
 	private Label engLabel;
 	private TextField rusField;
+	private Button showRightAnswerButton;
 
 	public TestWordCase(String engW, String rusW) {
 		rusWord = rusW.toLowerCase();
 		engWord = engW.toLowerCase();
+		showRightAnswerButton = new Button("Show answer");
 
 		rusField = new TextField(textFieldLength);
 		engLabel = new Label(engWord);
@@ -20,6 +22,7 @@ public class TestWordCase extends Panel {
 		setLayout(new FlowLayout());
 		add(engLabel);
 		add(rusField);
+		add(showRightAnswerButton);
 
 		rusField.addActionListener(new ActionListener() {
 			@Override
@@ -29,6 +32,13 @@ public class TestWordCase extends Panel {
 				} else {
 					rusField.setForeground(Color.RED);
 				}
+			}
+		});
+
+		showRightAnswerButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				rusField.setText(rusWord);
 			}
 		});
 	}
