@@ -34,6 +34,9 @@ public class TestWindow extends Frame {
 		prevButton.addActionListener((ae) ->
 			cardLayout.previous(testsPanel));
 
+		finishButton.addActionListener((ae) ->
+			finishTesting());
+
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent we) {
 				setVisible(false);
@@ -93,5 +96,13 @@ public class TestWindow extends Frame {
 		buttonsPanel.add(finishButton);
 		buttonsPanel.add(prevButton);
 		buttonsPanel.add(nextButton);
+	}
+
+	private void finishTesting() {
+		for (Component testPage : testsPanel.getComponents()) {
+			for (Component testCase : ((Panel)testPage).getComponents() ) {
+				System.out.println(((TestCase)testCase).getTestResult());
+			}
+		}
 	}
 }

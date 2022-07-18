@@ -3,7 +3,7 @@ package ru.kuznetsov.oleg;
 import java.awt.event.*;
 import java.awt.*;
 
-public class TestVerbCase extends Panel {
+public class TestVerbCase extends Panel implements TestCase {
 	private static int textFieldLength = 15;
 
 	private String first, second, third, rus;
@@ -12,8 +12,11 @@ public class TestVerbCase extends Panel {
 	private TextField rusField;
 	private Label rusLabel;
 	private Button showRightAnswersButton;
+	private int secondTestResult, thirdTestResult;
 
 	public TestVerbCase(String first, String second, String third, String rus) {
+		secondTestResult = 0;
+		thirdTestResult = 0;
 		this.first = first.toLowerCase();
 		this.second = second.toLowerCase();
 		this.third = third.toLowerCase();
@@ -40,6 +43,9 @@ public class TestVerbCase extends Panel {
 				} else {
 					secondField.setForeground(Color.RED);
 				}
+				if (secondTestResult == 0) {
+					secondTestResult = 1;
+				}
 			}
 		});
 
@@ -50,6 +56,9 @@ public class TestVerbCase extends Panel {
 					thirdField.setForeground(Color.BLUE);
 				} else {
 					thirdField.setForeground(Color.RED);
+				}
+				if (thirdTestResult == 0) {
+					thirdTestResult = 1;
 				}
 			}
 		});
@@ -70,7 +79,27 @@ public class TestVerbCase extends Panel {
 			public void actionPerformed(ActionEvent ae) {
 				secondField.setText(second);
 				thirdField.setText(third);
+				secondTestResult = -1;
+				thirdTestResult = -1;
 			}
 		});
+	}
+
+	@Override
+	public int getTestResult() {
+		int commonResult = secondTestResult + thirdTestResult;
+		if (commonResult == 2) {
+			return 1;
+		} else if (commonResult == 1 || commonResult == 0) {
+			return 0;
+		} else {
+			return -1;
+		}
+	}
+
+	@Override
+	public void cleanTestResult() {
+		secondTestResult = 0;
+		thirdTestResult = 0;
 	}
 }
