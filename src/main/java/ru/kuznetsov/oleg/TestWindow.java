@@ -16,9 +16,12 @@ public class TestWindow extends Frame {
 	private Panel testsPanel;
 	private CardLayout cardLayout;
 	private Button nextButton, prevButton, finishButton;
+	private TestManager testManager;
 
-	public TestWindow(String dirPath, String fileName, boolean isWordTest) {
+	public TestWindow(String dirPath, String fileName, boolean isWordTest,
+		TestManager testManager) {
 		//setLayout(new GridLayout(0, 1, 10, 10));
+		this.testManager = testManager;
 		setLayout(new FlowLayout());
 		setSize(400, 500);
 
@@ -99,10 +102,25 @@ public class TestWindow extends Frame {
 	}
 
 	private void finishTesting() {
+		int right = 0;
+		int wrong = 0;
+		int missed = 0;
 		for (Component testPage : testsPanel.getComponents()) {
 			for (Component testCase : ((Panel)testPage).getComponents() ) {
-				System.out.println(((TestCase)testCase).getTestResult());
+				if (testCase instanceof TestCase) {
+					int currentResult = ((TestCase)testCase).getTestResult();
+					if (currentResult == 0) {
+						++missed;
+					} else if (currentResult == 1) {
+						++right;
+					} else if (currentResult == -1) {
+						++wrong;
+					}
+					((TestCase)testCase).cleanTestResult();
+				}
 			}
 		}
+		testManager.setTestResults(right, wrong, missed);
+		setVisible(false);
 	}
 }

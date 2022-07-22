@@ -40,11 +40,11 @@ public class TestVerbCase extends Panel implements TestCase {
 			public void actionPerformed(ActionEvent ae) {
 				if (secondField.getText().toLowerCase().equals(second)) {
 					secondField.setForeground(Color.BLUE);
+					if (secondTestResult == 0) {
+						secondTestResult = 1;
+					}
 				} else {
 					secondField.setForeground(Color.RED);
-				}
-				if (secondTestResult == 0) {
-					secondTestResult = 1;
 				}
 			}
 		});
@@ -54,11 +54,11 @@ public class TestVerbCase extends Panel implements TestCase {
 			public void actionPerformed(ActionEvent ae) {
 				if (thirdField.getText().toLowerCase().equals(third)) {
 					thirdField.setForeground(Color.BLUE);
+					if (thirdTestResult == 0) {
+						thirdTestResult = 1;
+					}
 				} else {
 					thirdField.setForeground(Color.RED);
-				}
-				if (thirdTestResult == 0) {
-					thirdTestResult = 1;
 				}
 			}
 		});
@@ -79,26 +79,31 @@ public class TestVerbCase extends Panel implements TestCase {
 			public void actionPerformed(ActionEvent ae) {
 				secondField.setText(second);
 				thirdField.setText(third);
-				secondTestResult = -1;
-				thirdTestResult = -1;
+				if (secondTestResult == 0) {
+					secondTestResult = -1;
+				}
+				if (thirdTestResult == 0) {
+					thirdTestResult = -1;
+				}
 			}
 		});
 	}
 
 	@Override
 	public int getTestResult() {
-		int commonResult = secondTestResult + thirdTestResult;
-		if (commonResult == 2) {
-			return 1;
-		} else if (commonResult == 1 || commonResult == 0) {
-			return 0;
-		} else {
+		if (secondTestResult == -1 || thirdTestResult == -1) {
 			return -1;
 		}
+		if (secondTestResult == 0 || thirdTestResult == 0) {
+			return 0;
+		}
+		return 1;
 	}
 
 	@Override
 	public void cleanTestResult() {
+		secondField.setText("");
+		thirdField.setText("");
 		secondTestResult = 0;
 		thirdTestResult = 0;
 	}

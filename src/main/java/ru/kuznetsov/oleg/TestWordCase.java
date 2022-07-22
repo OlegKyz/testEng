@@ -31,11 +31,11 @@ public class TestWordCase extends Panel implements TestCase {
 			public void actionPerformed(ActionEvent ae) {
 				if (rusField.getText().toLowerCase().equals(rusWord)) {
 					rusField.setForeground(Color.BLUE);
+					if (testResult == 0) {
+						testResult = 1;
+					}
 				} else {
 					rusField.setForeground(Color.RED);
-				}
-				if (testResult == 0) {
-					testResult = 1;
 				}
 			}
 		});
@@ -58,6 +58,7 @@ public class TestWordCase extends Panel implements TestCase {
 
 	@Override
 	public void cleanTestResult() {
+		rusField.setText("");
 		testResult = 0;
 	}
 }
